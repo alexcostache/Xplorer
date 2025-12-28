@@ -1,0 +1,64 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+xp
+xp.exe
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.out
+coverage.html
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Debug logs
+xp_debug.log
+*.log
+
+# Build artifacts
+dist/
+build/
+bin/
+
+# Old and testing directories
+old/
+testing_ops/
+
+# User configuration files (these are created at runtime)
+# Uncomment if you want to ignore user configs
+# ~/.xp_config.json
+# ~/.xp_theme
+# ~/.xp_bookmarks.json
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS specific files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
