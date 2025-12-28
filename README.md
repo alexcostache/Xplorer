@@ -1,6 +1,6 @@
 # Xplorer
 
-[![Go Version](https://img.shields.io/badge/Go-1.24.2-00ADD8?style=flat&logo=go)](https://go.dev/)
+[![Go Version](https://img.shields.io/badge/Go-1.23-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/alexcostache/Xplorer/workflows/CI/badge.svg)](https://github.com/alexcostache/Xplorer/actions)
 
@@ -44,7 +44,7 @@ Go • Python • JavaScript • TypeScript • Java • C/C++ • Rust • Ruby
 ## 📦 Installation
 
 ### Prerequisites
-- Go 1.24.2 or higher
+- Go 1.23 or higher
 - A terminal emulator
 
 ### Quick Install
