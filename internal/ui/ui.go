@@ -498,7 +498,7 @@ func (r *Renderer) drawHelpPanel() {
 		"←→       Enter/Back Dir",
 		"Enter    Open with... (select editor)",
 		"Space    Select/Deselect file",
-		"Ctrl+O   File operations menu",
+		"Ctrl+O   Context Menu",
 		"Ctrl+S   Change sorting mode",
 		fmt.Sprintf("%c        Filter", keys.Filter),
 		fmt.Sprintf("%c        Themes", keys.OpenThemePopup),
@@ -938,7 +938,7 @@ func (r *Renderer) ShowEditorSelectionPopup(editors []config.EditorOption, nav *
 
 // Made with Bob
 
-// ShowContextMenu displays a context menu for file operations
+// ShowContextMenu displays the context menu
 func (r *Renderer) ShowContextMenu(options []string, nav *filesystem.Navigator, inPathEditMode bool, pathEditBuffer string, showHelp bool) int {
 	w, h := termbox.Size()
 	popupWidth := 40

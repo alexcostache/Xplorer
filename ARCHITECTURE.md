@@ -198,7 +198,7 @@ Xplorer (command: `xp`) is a terminal-based file explorer written in Go with a m
 - Render address bar, filter bar, metadata bar
 - Show help overlay
 - Display theme/bookmark selection popups
-- Show context menu for file operations
+- Show context menu for file management actions
 - Handle user prompts and confirmations
 - Display file selection indicators
 
@@ -210,7 +210,7 @@ Xplorer (command: `xp`) is a terminal-based file explorer written in Go with a m
 - `Draw(nav, inPathEditMode, pathEditBuffer, showHelp)`: Main render function
 - `ShowThemeSelector()`: Theme selection popup
 - `ShowBookmarkPopup()`: Bookmark navigation popup
-- `ShowContextMenu(options, ...)`: File operations context menu
+- `ShowContextMenu(options, ...)`: Context menu popup
 - `ShowError(message)`: Error message display
 - `Prompt(label, nav)`: Input prompt
 - `ConfirmPrompt(message)`: Yes/no confirmation
@@ -233,11 +233,11 @@ Xplorer (command: `xp`) is a terminal-based file explorer written in Go with a m
 
 ---
 
-### 8. **internal/fileops/** - File Operations Layer
-**Purpose**: Handles file system operations (copy, cut, paste, rename, delete).
+### 8. **internal/fileops/** - Context Menu Actions Layer
+**Purpose**: Handles file system actions (copy, cut, paste, rename, delete).
 
 **Key Components**:
-- `Manager`: File operations state and execution
+- `Manager`: Context menu action state and execution
 - `Operation`: Operation type enum (Copy, Cut)
 
 **Responsibilities**:
@@ -465,8 +465,8 @@ Xplorer/
 
 ## Implemented Features
 
-### File Operations (✅ Completed)
-The file operations module provides comprehensive file management:
+### Context Menu (✅ Completed)
+The context menu module provides comprehensive file management:
 - **Selection**: Space key to select/deselect files (✓ indicator shown)
 - **Context Menu**: Ctrl+O to open operations menu
 - **Copy**: Copy selected files to clipboard
@@ -481,12 +481,12 @@ The file operations module provides comprehensive file management:
 1. **Search**: Full-text search across files
 2. **Tabs**: Multiple directory tabs
 3. **Git Integration**: Show git status in file list
-4. **Custom Commands**: User-defined file operations
+4. **Custom Commands**: User-defined context menu actions
 5. **Plugins**: Plugin system for extensions
 6. **Remote Files**: SSH/FTP support
 7. **Archive Support**: Browse inside zip/tar files
-8. **Batch Operations**: Apply operations to multiple files
-9. **Undo/Redo**: Undo file operations
+8. **Batch Operations**: Apply actions to multiple files
+9. **Undo/Redo**: Undo context menu actions
 
 ### How to Add
 Each enhancement would be a new module in `internal/`:

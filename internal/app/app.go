@@ -660,7 +660,7 @@ func (a *App) revealInFileManager(path string) {
 	}
 }
 
-// handleContextMenu shows and handles the context menu for file operations
+// handleContextMenu shows and handles the context menu
 func (a *App) handleContextMenu() {
 	selectedPath := a.navigator.GetSelectedPath()
 	currentDir := a.navigator.GetCurrentDir()

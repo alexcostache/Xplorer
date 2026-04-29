@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Operation represents a file operation type
+// Operation represents a context menu action type
 type Operation int
 
 const (
@@ -19,7 +19,7 @@ const (
 	OpDelete
 )
 
-// ProgressInfo contains information about ongoing file operation
+// ProgressInfo contains information about an ongoing context menu action
 type ProgressInfo struct {
 	Operation     Operation
 	TotalBytes    int64
@@ -32,7 +32,7 @@ type ProgressInfo struct {
 	Mu            sync.RWMutex
 }
 
-// Manager handles file operations
+// Manager handles context menu actions
 type Manager struct {
 	clipboard      []string  // Files in clipboard
 	operation      Operation // Current operation (copy or cut)
@@ -40,7 +40,7 @@ type Manager struct {
 	progress       *ProgressInfo
 }
 
-// NewManager creates a new file operations manager
+// NewManager creates a new context menu manager
 func NewManager() *Manager {
 	return &Manager{
 		clipboard:     make([]string, 0),
@@ -57,7 +57,7 @@ func (m *Manager) GetProgress() *ProgressInfo {
 	return m.progress
 }
 
-// IsOperationActive returns whether a file operation is in progress
+// IsOperationActive returns whether a context menu action is in progress
 func (m *Manager) IsOperationActive() bool {
 	m.progress.Mu.RLock()
 	defer m.progress.Mu.RUnlock()

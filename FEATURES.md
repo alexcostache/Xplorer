@@ -11,7 +11,7 @@ A terminal-based file explorer written in Go with a three-panel interface, synta
 - Automatic scrolling with scroll offset management
 - Directory traversal with history tracking
 
-## File Operations
+## Context Menu
 - Open files in external editor (configurable: VS Code, notepad, nano, etc.)
 - Open terminal at current directory
 - Platform-specific terminal support (iTerm on macOS, cmd on Windows, x-terminal-emulator on Linux)

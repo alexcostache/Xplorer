@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/alexcostache/Xplorer/workflows/CI/badge.svg)](https://github.com/alexcostache/Xplorer/actions)
 
-A modern, fast, and feature-rich terminal-based file explorer written in Go. Navigate your filesystem with ease using an intuitive three-panel interface, syntax highlighting, customizable themes, and powerful file operations.
+A modern, fast, and feature-rich terminal-based file explorer written in Go. Navigate your filesystem with ease using an intuitive three-panel interface, syntax highlighting, customizable themes, and a powerful context menu.
 
 ![Xplorer Demo](https://via.placeholder.com/800x400.png?text=Xplorer+Screenshot)
 
@@ -16,10 +16,10 @@ A modern, fast, and feature-rich terminal-based file explorer written in Go. Nav
 - **Smart scrolling** - Automatic scroll offset management
 - **Directory history** - Navigate back and forth through your path
 
-### 📁 File Operations
+### 📁 Context Menu
 - **Multi-file selection** - Select multiple files with Space key
 - **Copy/Cut/Paste** - Full clipboard support with conflict resolution
-- **Rename & Delete** - Safe file operations with confirmations
+- **Rename & Delete** - Safe context menu actions with confirmations
 - **Context menu** - Quick access to operations with Ctrl+O
 - **External editor integration** - Open files in your favorite editor
 
@@ -116,7 +116,7 @@ xp --debug
 | `Enter` | Open file in editor or enter directory |
 | `Backspace` | Go to parent directory |
 
-### File Operations
+### Context Menu
 | Key | Action |
 |-----|--------|
 | `Space` | Select/deselect file |
