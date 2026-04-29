@@ -28,31 +28,33 @@ var SortModeNames = map[SortMode]string{
 
 // Navigator handles file system navigation
 type Navigator struct {
-	currentDir   string
-	fileList     []os.FileInfo
-	cursor       int
-	scrollOffset int
-	filter       string
-	showHidden   bool
-	sortMode     SortMode
-	sortReverse  bool
-	history      []string
-	historyIndex int
+	currentDir        string
+	fileList          []os.FileInfo
+	cursor            int
+	scrollOffset      int
+	filter            string
+	showHidden        bool
+	sortMode          SortMode
+	sortReverse       bool
+	history           []string
+	historyIndex      int
+	lastVisitedByDir  map[string]string
 }
 
 // NewNavigator creates a new filesystem navigator
 func NewNavigator() *Navigator {
 	currentDir, _ := os.Getwd()
 	nav := &Navigator{
-		currentDir:   currentDir,
-		cursor:       0,
-		scrollOffset: 0,
-		filter:       "",
-		showHidden:   false,
-		sortMode:     SortByName,
-		sortReverse:  false,
-		history:      []string{currentDir},
-		historyIndex: 0,
+		currentDir:       currentDir,
+		cursor:           0,
+		scrollOffset:     0,
+		filter:           "",
+		showHidden:       false,
+		sortMode:         SortByName,
+		sortReverse:      false,
+		history:          []string{currentDir},
+		historyIndex:     0,
+		lastVisitedByDir: make(map[string]string),
 	}
 	nav.RefreshFileList()
 	return nav
@@ -322,11 +324,14 @@ func (n *Navigator) MoveDownFast(visibleLines int) {
 func (n *Navigator) GoToParent() bool {
 	parent := filepath.Dir(n.currentDir)
 	if parent != n.currentDir {
+		currentDirName := filepath.Base(n.currentDir)
+		n.lastVisitedByDir[parent] = currentDirName
 		n.currentDir = parent
 		n.ClearFilter()
 		n.historyIndex++
 		n.history = append(n.history[:n.historyIndex], n.currentDir)
 		n.RefreshFileList()
+		n.restoreCursorForEntry(currentDirName)
 		return true
 	}
 	return false
@@ -337,6 +342,7 @@ func (n *Navigator) EnterDirectory() bool {
 	if len(n.fileList) > 0 {
 		selected := n.fileList[n.cursor]
 		if selected.IsDir() {
+			n.lastVisitedByDir[n.currentDir] = selected.Name()
 			n.currentDir = filepath.Join(n.currentDir, selected.Name())
 			n.ClearFilter()
 			n.historyIndex++
@@ -346,6 +352,20 @@ func (n *Navigator) EnterDirectory() bool {
 		}
 	}
 	return false
+}
+
+func (n *Navigator) restoreCursorForEntry(name string) {
+	if name == "" {
+		return
+	}
+
+	for i, entry := range n.fileList {
+		if entry.Name() == name {
+			n.cursor = i
+			n.scrollOffset = 0
+			return
+		}
+	}
 }
 
 // GetSelectedPath returns the full path of the selected file
