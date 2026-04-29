@@ -3,6 +3,7 @@
 set -e
 
 XP_NAME="xp"
+THEMES_DIR_NAME="themes"
 
 # Detect platform
 OS="$(uname)"
@@ -19,20 +20,31 @@ mkdir -p "$INSTALL_DIR"
 echo "🔧 Building '$XP_NAME' for $PLATFORM..."
 GOOS="$PLATFORM" GOARCH=amd64 go build -o "$XP_NAME$EXT"
 
+if [ ! -d "$THEMES_DIR_NAME" ]; then
+    echo "❌ Themes directory '$THEMES_DIR_NAME' not found."
+    exit 1
+fi
+
 echo ""
 read -p "🌍 Install globally (requires sudo, not recommended on Windows)? [y/N]: " choice
 if [[ "$choice" =~ ^[Yy]$ ]]; then
     if [[ "$PLATFORM" == "windows" ]]; then
         echo "⚠️ Global install not supported via script on Windows. Installing locally to $INSTALL_DIR..."
         mv "$XP_NAME$EXT" "$INSTALL_DIR/"
+        rm -rf "$INSTALL_DIR/$THEMES_DIR_NAME"
+        cp -R "$THEMES_DIR_NAME" "$INSTALL_DIR/$THEMES_DIR_NAME"
     else
         echo "📦 Installing globally to /usr/local/bin..."
         sudo mv "$XP_NAME$EXT" /usr/local/bin/
+        sudo rm -rf /usr/local/bin/"$THEMES_DIR_NAME"
+        sudo cp -R "$THEMES_DIR_NAME" /usr/local/bin/"$THEMES_DIR_NAME"
         echo "✅ Installed globally. You can now run '$XP_NAME' from anywhere."
     fi
 else
     echo "📦 Installing to $INSTALL_DIR..."
     mv "$XP_NAME$EXT" "$INSTALL_DIR/"
+    rm -rf "$INSTALL_DIR/$THEMES_DIR_NAME"
+    cp -R "$THEMES_DIR_NAME" "$INSTALL_DIR/$THEMES_DIR_NAME"
 
     # Add to PATH if not already there (Linux/macOS only)
     if [[ "$PLATFORM" != "windows" ]]; then

@@ -110,33 +110,67 @@ func (m *Manager) GetFileColor(name string, isDir bool) termbox.Attribute {
 
 // loadThemesFromJSON loads all theme JSON files from the themes directory
 func (m *Manager) loadThemesFromJSON() []Theme {
+	themesDir := m.getThemesDir()
+	return m.loadThemesFromDir(themesDir)
+}
+
+func (m *Manager) loadThemesFromDir(themesDir string) []Theme {
 	var themes []Theme
-	
-	// Get themes directory path
-	themesDir := "themes"
-	
-	// Read all JSON files in themes directory
+
 	files, err := os.ReadDir(themesDir)
 	if err != nil {
 		return themes
 	}
-	
+
 	for _, file := range files {
 		if file.IsDir() || !strings.HasSuffix(file.Name(), ".json") {
 			continue
 		}
-		
+
 		themePath := filepath.Join(themesDir, file.Name())
 		theme, err := m.loadThemeFromFile(themePath)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Warning: Failed to load theme %s: %v\n", file.Name(), err)
 			continue
 		}
-		
+
 		themes = append(themes, theme)
 	}
-	
+
 	return themes
+}
+
+func (m *Manager) getThemesDir() string {
+	candidateDirs := []string{}
+
+	exePath, err := os.Executable()
+	if err == nil {
+		exeDir := filepath.Dir(exePath)
+		candidateDirs = append(candidateDirs,
+			filepath.Join(exeDir, "themes"),
+			filepath.Join(exeDir, "..", "themes"),
+			filepath.Join(exeDir, "..", "share", "xp", "themes"),
+		)
+	}
+
+	candidateDirs = append(candidateDirs, "themes")
+
+	for _, dir := range candidateDirs {
+		if info, statErr := os.Stat(dir); statErr == nil && info.IsDir() {
+			return dir
+		}
+	}
+
+	return ""
+}
+
+func (m *Manager) getWritableThemesDir() string {
+	usr, err := user.Current()
+	if err == nil && usr.HomeDir != "" {
+		return filepath.Join(usr.HomeDir, ".config", "xp", "themes")
+	}
+
+	return "themes"
 }
 
 // loadThemeFromFile loads a single theme from a JSON file
@@ -145,7 +179,10 @@ func (m *Manager) loadThemeFromFile(path string) (Theme, error) {
 	if err != nil {
 		return Theme{}, err
 	}
-	
+	return m.loadThemeFromData(data)
+}
+
+func (m *Manager) loadThemeFromData(data []byte) (Theme, error) {
 	var themeJSON ThemeJSON
 	if err := json.Unmarshal(data, &themeJSON); err != nil {
 		return Theme{}, err
@@ -343,7 +380,7 @@ func getDefaultFileColors() map[string]termbox.Attribute {
 
 // SaveTheme saves a theme to a JSON file
 func (m *Manager) SaveTheme(theme *Theme) error {
-	themesDir := "themes"
+	themesDir := m.getWritableThemesDir()
 	
 	// Ensure themes directory exists
 	if err := os.MkdirAll(themesDir, 0755); err != nil {
@@ -469,7 +506,7 @@ func (m *Manager) DeleteTheme(themeName string) error {
 	}
 	
 	// Find and delete the theme file
-	themesDir := "themes"
+	themesDir := m.getWritableThemesDir()
 	filename := strings.ToLower(strings.ReplaceAll(themeName, " ", "-")) + ".json"
 	filepath := filepath.Join(themesDir, filename)
 	
@@ -514,7 +551,7 @@ func (m *Manager) RenameTheme(oldName, newName string) error {
 	}
 	
 	// Delete old file
-	themesDir := "themes"
+	themesDir := m.getWritableThemesDir()
 	oldFilename := strings.ToLower(strings.ReplaceAll(oldName, " ", "-")) + ".json"
 	oldFilepath := filepath.Join(themesDir, oldFilename)
 	
