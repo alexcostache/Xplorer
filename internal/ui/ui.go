@@ -953,7 +953,7 @@ func (r *Renderer) ShowContextMenu(options []string, nav *filesystem.Navigator, 
 		r.Draw(nav, inPathEditMode, pathEditBuffer, showHelp)
 
 		// Draw popup box
-		DrawBoxWithTitle(startX, startY, popupWidth, popupHeight, "File Operations", r.theme().ColorText, r.theme().ColorBackground)
+		DrawBoxWithTitle(startX, startY, popupWidth, popupHeight, "Context Menu", r.theme().ColorText, r.theme().ColorBackground)
 
 		// Draw menu options
 		for i, option := range options {
